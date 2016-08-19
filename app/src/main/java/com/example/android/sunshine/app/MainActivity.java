@@ -13,54 +13,40 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity {
     private static final String APP_LOG_TAG = "android.sunshine.app";
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    private static final String FORECASTFRAGMENT_TAG = "forecast_fragment";
+
+    private String mLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(APP_LOG_TAG, "in onCreate");
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new ForecastFragment())
+                    .add(R.id.container, new ForecastFragment(), FORECASTFRAGMENT_TAG)
                     .commit();
         }
-    }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d(APP_LOG_TAG, "in onPause");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d(APP_LOG_TAG, "in onStop");
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(APP_LOG_TAG, "in onStart");
+        mLocation = Utility.getPreferredLocation(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(APP_LOG_TAG, "in onResume");
-    }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d(APP_LOG_TAG, "in onDestroy");
-    }
+        String currentLocation = Utility.getPreferredLocation(this);
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.d(APP_LOG_TAG, "in onRestart");
+        if (currentLocation != null && !currentLocation.equals(mLocation)) {
+            ForecastFragment ff = (ForecastFragment) getSupportFragmentManager()
+                    .findFragmentByTag(FORECASTFRAGMENT_TAG);
+
+
+            if (ff != null) {
+                ff.onLocationChanged();
+            }
+
+            mLocation = currentLocation;
+        }
     }
 
     @Override
@@ -88,10 +74,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openPreferredLocationInMap() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String location = preferences.getString(getString(R.string.pref_location_key),
-                getString(R.string.pref_location_default));
-
+        String location = Utility.getPreferredLocation(this);
         Uri geoLocation = Uri.parse("geo:0,0?q=").buildUpon()
                 .appendQueryParameter("q", location)
                 .build();
