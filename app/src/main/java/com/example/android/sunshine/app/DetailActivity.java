@@ -148,8 +148,8 @@ public class DetailActivity extends AppCompatActivity {
 
             boolean isMetric = Utility.isMetric(getActivity());
 
-            String highTemp = Utility.formatTemperature(data.getDouble(COL_WEATHER_MAX_TEMP), isMetric);
-            String lowTemp = Utility.formatTemperature(data.getDouble(COL_WEATHER_MIN_TEMP), isMetric);
+            String highTemp = Utility.formatTemperature(getActivity(), data.getDouble(COL_WEATHER_MAX_TEMP), isMetric);
+            String lowTemp = Utility.formatTemperature(getActivity(), data.getDouble(COL_WEATHER_MIN_TEMP), isMetric);
 
             mWeatherData = String.format("%s - %s - %s/%s", dateString, weatherDesc, highTemp, lowTemp);
 
