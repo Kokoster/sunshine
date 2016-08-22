@@ -71,6 +71,7 @@ public class DetailFragment extends Fragment
     private TextView mWeatherDescView;
     private TextView mHumidityView;
     private TextView mWindView;
+
     private TextView mPressureView;
 
     @Override
@@ -126,7 +127,7 @@ public class DetailFragment extends Fragment
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Intent intent = getActivity().getIntent();
 
-        if (intent == null) {
+        if (intent == null || intent.getData() == null) {
             return null;
         }
 

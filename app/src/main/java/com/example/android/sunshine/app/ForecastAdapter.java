@@ -73,8 +73,8 @@ public class ForecastAdapter extends CursorAdapter {
         final ViewHolder holder = (ViewHolder) view.getTag();
 
         int weatherId = cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID);
-        int viewType = getItemViewType(cursor.getPosition());
 
+        int viewType = getItemViewType(cursor.getPosition());
         switch (viewType) {
             case VIEW_TYPE_TODAY:
                 holder.iconView.setImageResource(Utility.getArtResourceForWeatherCondition(weatherId));

@@ -13,21 +13,29 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity {
     private static final String APP_LOG_TAG = "android.sunshine.app";
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
-    private static final String FORECASTFRAGMENT_TAG = "forecast_fragment";
+
+    private static final String DETAILFRAGMENT_TAG = "DFTAG";
 
     private String mLocation;
+    private boolean mTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new ForecastFragment(), FORECASTFRAGMENT_TAG)
-                    .commit();
-        }
-
         mLocation = Utility.getPreferredLocation(this);
+
+        setContentView(R.layout.activity_main);
+        if (findViewById(R.id.weather_detail_container) != null) {
+            mTwoPane = true;
+
+            if (savedInstanceState == null) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.weather_detail_container, new DetailFragment(), DETAILFRAGMENT_TAG)
+                        .commit();
+            }
+        } else {
+            mTwoPane = false;
+        }
     }
 
     @Override
@@ -38,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (currentLocation != null && !currentLocation.equals(mLocation)) {
             ForecastFragment ff = (ForecastFragment) getSupportFragmentManager()
-                    .findFragmentByTag(FORECASTFRAGMENT_TAG);
+                    .findFragmentById(R.id.fragment_forecast);
 
 
             if (ff != null) {
