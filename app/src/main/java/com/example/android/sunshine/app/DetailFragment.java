@@ -30,10 +30,12 @@ public class DetailFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor> {
     private final int DETAIL_LOADER = 0;
 
-    private final String LOG_TAG = DetailFragment.class.getSimpleName();
-    private final String FORECAST_SHARE_HASHTAG = "#SunshineApp";
+    private static final String LOG_TAG = DetailFragment.class.getSimpleName();
+    public static final String DETAIL_URI = "URI";
+    private static final String FORECAST_SHARE_HASHTAG = "#SunshineApp";
 
     private String mForecast;
+    private Uri mUri;
 
     private static final String[] DETAIL_COLUMNS = {
             WeatherContract.WeatherEntry.TABLE_NAME + "." + WeatherContract.WeatherEntry._ID,
@@ -71,12 +73,16 @@ public class DetailFragment extends Fragment
     private TextView mWeatherDescView;
     private TextView mHumidityView;
     private TextView mWindView;
-
     private TextView mPressureView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            mUri = arguments.getParcelable(DETAIL_URI);
+        }
 
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
@@ -125,27 +131,22 @@ public class DetailFragment extends Fragment
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Intent intent = getActivity().getIntent();
-
-        if (intent == null || intent.getData() == null) {
-            return null;
+        if (mUri != null) {
+            return new CursorLoader(
+                    getActivity(),
+                    mUri,
+                    DETAIL_COLUMNS,
+                    null,
+                    null,
+                    null
+            );
         }
 
-        Uri dataUri = intent.getData();
-        return new CursorLoader(
-                getActivity(),
-                dataUri,
-                DETAIL_COLUMNS,
-                null,
-                null,
-                null
-        );
+        return null;
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-//        mPressureView
-
         if (data == null || !data.moveToFirst()) {
             return;
         }
@@ -201,5 +202,16 @@ public class DetailFragment extends Fragment
         }
 
         mShareActionProvider.setShareIntent(createShareForecastIntent());
+    }
+
+    public void onLocationChanged(String newLocation) {
+        Uri uri = mUri;
+
+        if (uri != null) {
+            long date = WeatherContract.WeatherEntry.getDateFromUri(uri);
+            Uri updatedUri = WeatherContract.WeatherEntry.buildWeatherLocationWithDate(newLocation, date);
+            mUri = updatedUri;
+            getLoaderManager().restartLoader(DETAIL_LOADER, null, this);
+        }
     }
 }

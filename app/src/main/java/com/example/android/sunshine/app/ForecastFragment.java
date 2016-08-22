@@ -86,12 +86,11 @@ public class ForecastFragment extends Fragment
 
                 if (cursor != null) {
                     String locationSettings = Utility.getPreferredLocation(getActivity());
-                    Intent intent = new Intent(getActivity(), DetailActivity.class)
-                            .setData(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
+
+                    ((Callback) getActivity())
+                            .onItemSelected(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
                                     locationSettings, cursor.getLong(COL_WEATHER_DATE)
                             ));
-
-                    startActivity(intent);
                 }
             }
         });
