@@ -150,8 +150,7 @@ public class DetailFragment extends Fragment
         }
 
         int weatherId = data.getInt(COL_WEATHER_CONDITION_ID);
-
-        mForecastImageView.setImageResource(R.mipmap.ic_launcher);
+        mForecastImageView.setImageResource(Utility.getArtResourceForWeatherCondition(weatherId));
 
         long date = data.getLong(COL_WEATHER_DATE);
         String friendlyDateText = Utility.getDayName(getActivity(), date);
