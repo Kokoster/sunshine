@@ -155,4 +155,8 @@ public class ForecastFragment extends Fragment
     public void onLoaderReset(Loader<Cursor> loader) {
         mForecastAdapter.swapCursor(null);
     }
+
+    public interface Callback {
+        public void onItemSelected(Uri dateUri);
+    }
 }

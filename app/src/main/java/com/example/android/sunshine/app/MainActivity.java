@@ -13,7 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity
- implements Callback {
+ implements ForecastFragment.Callback {
     private static final String APP_LOG_TAG = "android.sunshine.app";
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
