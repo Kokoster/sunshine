@@ -9,12 +9,12 @@
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/friendly_date_textview"
+            android:id="@+id/detail_day_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/date_textview"
+            android:id="@+id/detail_date_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -32,12 +32,12 @@
                 android:layout_weight="1">
                 
                 <TextView
-                    android:id="@+id/high_temp_textview"
+                    android:id="@+id/detail_high_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-    
+
                 <TextView
-                    android:id="@+id/low_temp_textview"
+                    android:id="@+id/detail_low_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -52,12 +52,12 @@
                 android:layout_weight="1">
                 
                 <ImageView
-                    android:id="@+id/icon"
+                    android:id="@+id/detail_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:id="@+id/forecast_textview"
+                    android:id="@+id/detail_forecast_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -66,17 +66,17 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/humidity_textview"
+            android:id="@+id/detail_humidity_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/wind_textview"
+            android:id="@+id/detail_pressure_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/pressure_textview"
+            android:id="@+id/detail_wind_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
