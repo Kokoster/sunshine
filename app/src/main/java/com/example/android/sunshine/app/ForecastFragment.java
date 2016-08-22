@@ -54,6 +54,7 @@ public class ForecastFragment extends Fragment
 
     private ListView mForecastListView;
     private int mCurrentPosition = ListView.INVALID_POSITION;
+    private boolean mUseTodayLayout = true;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,7 +93,6 @@ public class ForecastFragment extends Fragment
                                     locationSettings, cursor.getLong(COL_WEATHER_DATE)
                             ));
                 }
-
                 mCurrentPosition = position;
             }
         });
@@ -100,6 +100,8 @@ public class ForecastFragment extends Fragment
         if (savedInstanceState != null && savedInstanceState.containsKey(LIST_ITEM_SELECTED_KEY)) {
             mCurrentPosition = savedInstanceState.getInt(LIST_ITEM_SELECTED_KEY);
         }
+
+        mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
 
         return mRootView;
     }
@@ -177,5 +179,13 @@ public class ForecastFragment extends Fragment
 
     public interface Callback {
         public void onItemSelected(Uri dateUri);
+    }
+
+    public void setUseTodayLayout(boolean useTodayLayout) {
+        mUseTodayLayout = useTodayLayout;
+
+        if (mForecastAdapter != null) {
+            mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
+        }
     }
 }
