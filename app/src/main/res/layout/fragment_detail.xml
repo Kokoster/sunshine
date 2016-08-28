@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_gravity="center_horizontal"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:layout_weight="1">
                 
                 <TextView
@@ -52,7 +52,8 @@
                     android:layout_height="wrap_content"
                     android:textSize="48sp"
                     android:fontFamily="sans-serif-light"
-                    android:textColor="@color/sunshine_subtext_color" />
+                    android:textColor="@color/sunshine_subtext_color"
+                    android:layout_marginLeft="16dp"/>
 
             </LinearLayout>
             
@@ -60,7 +61,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_gravity="end"
+                android:layout_gravity="center"
                 android:gravity="center"
                 android:layout_weight="1">
                 
@@ -87,7 +88,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:textAppearanceLarge"
             android:fontFamily="sans-serif-light"
-            android:paddingBottom="4dp"/>
+            android:layout_marginBottom="4dp"/>
 
         <TextView
             android:id="@+id/detail_pressure_textview"
@@ -95,7 +96,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:textAppearanceLarge"
             android:fontFamily="sans-serif-light"
-            android:paddingBottom="4dp"/>
+            android:layout_marginBottom="4dp"/>
 
         <TextView
             android:id="@+id/detail_wind_textview"

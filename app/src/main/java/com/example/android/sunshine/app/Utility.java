@@ -56,7 +56,8 @@ public class Utility {
         return DateFormat.getDateInstance().format(date);
     }
 
-    public static String getFriendlyDayString(Context context, long dateInMillis) {
+    public static String getFriendlyDayString(Context context, long dateInMillis,
+                                              boolean useTodayLayout) {
         // The day string for forecast uses the following logic:
         // For today: "Today, June 8"
         // For tomorrow:  "Tomorrow"
@@ -73,7 +74,14 @@ public class Utility {
         // is "Today, June 24"
         if (julianDay == currentJulianDay) {
             String today = context.getString(R.string.today);
-            int formatId = R.string.format_full_friendly_date;
+
+            int formatId;
+            if (useTodayLayout) {
+                formatId = R.string.format_full_friendly_date;
+            } else {
+                formatId = R.string.format_full_friendly_oneline_date;
+            }
+
             return String.format(context.getString(
                     formatId,
                     today,

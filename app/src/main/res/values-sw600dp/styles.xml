@@ -5,4 +5,14 @@
         <item name="android:choiceMode">singleChoice</item>
     </style>
 
+    <style name="ListItemLargeTextStyle">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+    </style>
+
+    <style name="ListItemSmallTextStyle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+    </style>
+
 </resources>
