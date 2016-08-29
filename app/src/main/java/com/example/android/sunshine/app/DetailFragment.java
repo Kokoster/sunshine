@@ -74,6 +74,7 @@ public class DetailFragment extends Fragment
     private TextView mHumidityView;
     private TextView mWindView;
     private TextView mPressureView;
+    private DirectionView mDirectionView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -95,6 +96,7 @@ public class DetailFragment extends Fragment
         mHumidityView = (TextView) rootView.findViewById(R.id.detail_humidity_textview);
         mWindView = (TextView) rootView.findViewById(R.id.detail_wind_textview);
         mPressureView = (TextView) rootView.findViewById(R.id.detail_pressure_textview);
+        mDirectionView = (DirectionView) rootView.findViewById(R.id.detail_wind_direction);
 
         return rootView;
     }
@@ -176,9 +178,11 @@ public class DetailFragment extends Fragment
         mHumidityView.setText(humidity);
 
 
-        String windData = Utility.getFormattedWind(getActivity(), data.getFloat(COL_WEATHER_WIND_SPEED),
-                data.getFloat(COL_WEATHER_WIND_DIRECTION));
+        String windData = Utility.getFormattedWind(getActivity(), data.getFloat(COL_WEATHER_WIND_SPEED));
         mWindView.setText(windData);
+
+        Float windDirection = data.getFloat(COL_WEATHER_WIND_DIRECTION);
+        mDirectionView.setDirection(windDirection);
 
         String pressure = String.format(getString(R.string.format_pressure),
                 data.getDouble(COL_WEATHER_PRESSURE));
@@ -197,7 +201,7 @@ public class DetailFragment extends Fragment
             mHighTempView == null || mLowTempView == null ||
             mWeatherDescView == null || mHumidityView == null ||
             mWindView == null || mPressureView == null ||
-            mShareActionProvider == null) {
+            mShareActionProvider == null || mDirectionView == null) {
 
             return;
         }
