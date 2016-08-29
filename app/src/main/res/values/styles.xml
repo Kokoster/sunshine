@@ -1,9 +1,11 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="BaseAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/sunshine_blue</item>
         <item name="colorPrimaryDark">@color/sunshine_dark_blue</item>
     </style>
+
+    <style name="AppTheme" parent="@style/BaseAppTheme"/>
 
     <!--main activity theme-->
     <style name="ForecastTheme" parent="AppTheme">
