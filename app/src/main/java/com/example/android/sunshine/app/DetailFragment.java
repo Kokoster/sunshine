@@ -169,6 +169,7 @@ public class DetailFragment extends Fragment
 
         String weatherDesc = data.getString(COL_WEATHER_DESC);
         mWeatherDescView.setText(weatherDesc);
+        mForecastImageView.setContentDescription(weatherDesc);
 
         String humidity = String.format(getString(R.string.format_humidity),
                 data.getDouble(COL_WEATHER_HUMIDITY));
