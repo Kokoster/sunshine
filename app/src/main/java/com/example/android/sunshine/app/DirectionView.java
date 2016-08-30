@@ -5,8 +5,11 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PointF;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityManager;
 
 import java.io.Serializable;
 
@@ -18,21 +21,43 @@ public class DirectionView extends View {
 
     public DirectionView(Context context) {
         super(context);
+        setFocusable(true);
     }
 
     public DirectionView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        setFocusable(true);
     }
 
     public DirectionView(Context context, AttributeSet attrs,
                          int defaultStyle) {
         super(context, attrs, defaultStyle);
+        setFocusable(true);
     }
 
     public void setDirection(float direction) {
 //        mArrow.initArrowMetrics();
         mDirection = direction;
         invalidate();
+    }
+
+    @Override
+    protected void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect) {
+        super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
+
+        AccessibilityManager accessibilityManager =
+                (AccessibilityManager) getContext().getSystemService(
+                        Context.ACCESSIBILITY_SERVICE);
+        if (accessibilityManager.isEnabled()) {
+            sendAccessibilityEvent(
+                    AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED);
+        }
+    }
+
+    @Override
+    public boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event) {
+        event.getText().add(Utility.getWindDirection((float) mDirection));
+        return true;
     }
 
     @Override
