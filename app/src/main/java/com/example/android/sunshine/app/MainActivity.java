@@ -8,9 +8,12 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.example.android.sunshine.app.data.WeatherContract;
 
 public class MainActivity extends AppCompatActivity
  implements ForecastFragment.Callback {
@@ -32,9 +35,15 @@ public class MainActivity extends AppCompatActivity
             mTwoPane = true;
 
             if (savedInstanceState == null) {
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.weather_detail_container, new DetailFragment(), DETAILFRAGMENT_TAG)
-                        .commit();
+                String locationSettings = Utility.getPreferredLocation(this);
+
+                Time dayTime = new Time();
+                dayTime.setToNow();
+                int julianStartDay = Time.getJulianDay(System.currentTimeMillis(), dayTime.gmtoff);
+                long dateTime = dayTime.setJulianDay(julianStartDay);
+
+                onItemSelected(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
+                        locationSettings, dateTime));
             }
         } else {
             getSupportActionBar().setElevation(0f);

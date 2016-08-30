@@ -8,11 +8,13 @@ import android.graphics.PointF;
 import android.util.AttributeSet;
 import android.view.View;
 
+import java.io.Serializable;
+
 public class DirectionView extends View {
     private Arrow mArrow = new Arrow();
     private Paint mPaint = new Paint();
 
-    private double mDirection = 30.0;
+    private double mDirection = 0.0;
 
     public DirectionView(Context context) {
         super(context);
@@ -28,12 +30,45 @@ public class DirectionView extends View {
     }
 
     public void setDirection(float direction) {
+//        mArrow.initArrowMetrics();
         mDirection = direction;
+        invalidate();
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+        int desiredWidth = 22;
+        int desiredHeight = 22;
+
+        int width;
+        int height;
+
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+
+        //Measure Width
+        if (widthMode == MeasureSpec.EXACTLY) {
+            width = widthSize;
+        } else if (widthMode == MeasureSpec.AT_MOST) {
+            width = Math.min(desiredWidth, widthSize);
+        } else {
+            width = desiredWidth;
+        }
+
+        //Measure Height
+        if (heightMode == MeasureSpec.EXACTLY) {
+            height = heightSize;
+        } else if (heightMode == MeasureSpec.AT_MOST) {
+            height = Math.min(desiredHeight, heightSize);
+        } else {
+            height = desiredHeight;
+        }
+
+        setMeasuredDimension(width, height);
 
         mArrow.initArrowMetrics();
     }
@@ -41,6 +76,10 @@ public class DirectionView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
+        if (!mArrow.allInitialized()) {
+            return;
+        }
 
         canvas.rotate((float) mDirection, getWidth() / 2, getHeight() / 2);
 
@@ -53,17 +92,19 @@ public class DirectionView extends View {
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeWidth(1);
         canvas.drawPath(mArrow.getLeftArrow(), mPaint);
+
+        canvas.restore();
     }
 
-    private class Arrow extends Path {
+    private class Arrow extends Path implements Serializable {
         private PointF leftPoint;
         private PointF rightPoint;
         private PointF middlePoint;
         private PointF centerPoint;
 
         public void initArrowMetrics() {
-            float width = getWidth() / 2;
-            float height = getHeight() / 2;
+            float width = (float) getWidth() / 2;
+            float height = (float) getHeight() / 2;
 
             centerPoint = new PointF(getWidth() / 2, getHeight() / 2);
 
@@ -72,7 +113,18 @@ public class DirectionView extends View {
             middlePoint = new PointF(centerPoint.x, 0);
         }
 
+        public boolean allInitialized() {
+            return (centerPoint != null && leftPoint != null &&
+                    rightPoint != null && middlePoint != null);
+        }
+
         public Arrow getArrow() {
+            if (!allInitialized()) {
+                return null;
+            }
+
+            rewind();
+
             moveTo(leftPoint.x, leftPoint.y);
             lineTo(rightPoint.x, rightPoint.y);
             lineTo(middlePoint.x, middlePoint.y);
@@ -82,7 +134,14 @@ public class DirectionView extends View {
 
             return this;
         }
+
         public Arrow getRightArrow() {
+            if (!allInitialized()) {
+                return null;
+            }
+
+            rewind();
+
             moveTo(middlePoint.x, rightPoint.y);
             lineTo(rightPoint.x, rightPoint.y);
             lineTo(middlePoint.x, middlePoint.y);
@@ -94,6 +153,12 @@ public class DirectionView extends View {
         }
 
         public Arrow getLeftArrow() {
+            if (!allInitialized()) {
+                return null;
+            }
+
+            rewind();
+
             moveTo(leftPoint.x, leftPoint.y);
             lineTo(middlePoint.x, leftPoint.y);
             lineTo(middlePoint.x, middlePoint.y);
