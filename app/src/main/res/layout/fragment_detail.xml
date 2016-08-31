@@ -89,8 +89,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:textAppearanceLarge"
             android:fontFamily="sans-serif-light"
-            android:layout_marginBottom="4dp"
-            android:text="Humidity: 50%"/>
+            android:layout_marginBottom="4dp" />
 
         <TextView
             android:id="@+id/detail_pressure_textview"
@@ -98,8 +97,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:textAppearanceLarge"
             android:fontFamily="sans-serif-light"
-            android:layout_marginBottom="4dp"
-            android:text="Pressure: 1014 hPa"/>
+            android:layout_marginBottom="4dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -111,8 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:textAppearanceLarge"
-                android:fontFamily="sans-serif-light"
-                android:text="Wind: 10 m/s" />
+                android:fontFamily="sans-serif-light" />
 
             <com.example.android.sunshine.app.DirectionView
                 android:id="@+id/detail_wind_direction"

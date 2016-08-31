@@ -32,7 +32,6 @@
             android:textSize="72sp"
             android:fontFamily="sans-serif-light"
             android:textColor="@color/sunshine_white"
-            android:paddingLeft="-10dp"
             />
 
         <TextView
