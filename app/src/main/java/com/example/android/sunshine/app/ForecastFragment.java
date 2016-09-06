@@ -29,6 +29,8 @@ import com.example.android.sunshine.app.sync.SunshineSyncAdapter;
 public class ForecastFragment extends Fragment
     implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    private static final String LOG_TAG = ForecastFragment.class.getSimpleName();
+
     private static final int FORECAST_LOADER_ID = 0 ;
     private static final String LIST_ITEM_SELECTED_KEY = "selected_position";
 
@@ -68,6 +70,19 @@ public class ForecastFragment extends Fragment
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.action_map:
+                openPreferredLocationInMap();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -122,24 +137,6 @@ public class ForecastFragment extends Fragment
         super.onSaveInstanceState(outState);
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.forecastfragment, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        switch (id) {
-            case R.id.action_refresh:
-                updateWeather();
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     public void onLocationChanged() {
         updateWeather();
         getLoaderManager().restartLoader(FORECAST_LOADER_ID, null, this);
@@ -190,6 +187,34 @@ public class ForecastFragment extends Fragment
 
         if (mForecastAdapter != null) {
             mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
+        }
+    }
+
+    private void openPreferredLocationInMap() {
+        if (mForecastAdapter == null) {
+            return;
+        }
+
+        Cursor cursor = mForecastAdapter.getCursor();
+        if (cursor == null) {
+            return;
+        }
+
+        cursor.moveToPosition(0);
+        String posLat = cursor.getString(COL_COORD_LAT);
+        String posLong = cursor.getString(COL_COORD_LONG);
+
+        Log.d(LOG_TAG, "long: " + posLong + " lat: " + posLat);
+
+        Uri geoLocation = Uri.parse("geo:" + posLat + "," + posLong);
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(geoLocation);
+
+        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivity(intent);
+        } else {
+            Log.d(LOG_TAG, "Couldn't call " + geoLocation.toString() + ", no receiving apps installed!");
         }
     }
 }

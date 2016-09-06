@@ -97,29 +97,9 @@ public class MainActivity extends AppCompatActivity
                 startActivity(new Intent(this, SettingsActivity.class));
 
                 return true;
-
-            case R.id.action_map:
-                openPreferredLocationInMap();
-                return true;
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private void openPreferredLocationInMap() {
-        String location = Utility.getPreferredLocation(this);
-        Uri geoLocation = Uri.parse("geo:0,0?q=").buildUpon()
-                .appendQueryParameter("q", location)
-                .build();
-
-        Intent mapIntent = new Intent(Intent.ACTION_VIEW);
-        mapIntent.setData(geoLocation);
-
-        if (mapIntent.resolveActivity(getPackageManager()) != null) {
-            startActivity(mapIntent);
-        } else {
-            Log.e(LOG_TAG, "Couldn't call " + location + ", no app");
-        }
     }
 
     @Override
