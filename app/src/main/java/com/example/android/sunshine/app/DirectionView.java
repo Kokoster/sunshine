@@ -36,7 +36,7 @@ public class DirectionView extends View {
     }
 
     public void setDirection(float direction) {
-//        mArrow.initArrowMetrics();
+        mArrow.initArrowMetrics();
         mDirection = direction;
         invalidate();
     }
